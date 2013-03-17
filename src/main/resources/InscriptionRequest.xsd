@@ -1,0 +1,91 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:hr="http://iaws/ws/contractfirst/covoiturage" elementFormDefault="qualified"
+	targetNamespace="http://iaws/ws/contractfirst/covoiturage">
+	
+	<xs:element name="InscriptionRequest" type="exem:InscriptionRequestType"
+		xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
+		
+	<xs:complexType name="InscriptionRequestType">
+		<xs:all>
+			<xs:element type="exem:IdentiteType" name="Identite"
+				xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
+			<xs:element type="exem:MailType" name="Mail"
+				xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
+			<xs:element type="exem:AdressePostaleType" name="AdressePostale"
+				xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="IdentiteType">
+		<xs:all>
+			<xs:element type="xs:string" name="Nom" />
+			<xs:element type="xs:string" name="Prenom" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="MailType">
+		<xs:all>
+			<xs:element type="xs:string" name="Perso" />
+			<xs:element type="xs:string" name="Domaine" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:complexType name="AdressePostaleType">
+		<xs:all>
+			<xs:element type="xs:string" name="Rue" />
+			<xs:element type="xs:string" name="Code" />
+			<xs:element type="xs:string" name="Ville" />
+		</xs:all>
+	</xs:complexType>
+
+
+	<xs:element name="InscriptionDetails" type="exem:InscriptionDetailsType"
+		xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
+
+	<xs:complexType name="InscriptionDetailsType">
+		<xs:all>
+			<xs:element type="xs:string" name="Code" />
+		</xs:all>
+	</xs:complexType>
+	
+</xs:schema>
+
+
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+	
+	
+	
+	
+	<!-- 
+	<xs:element name="InscriptionRequest">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Identite" type="hr:IdentiteType" />
+				<xs:element name="Mail" type="hr:MailType" />
+				<xs:element name="AdressePostale" type="hr:AdressePostaleType" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="IdentiteType">
+		<xs:sequence>
+			<xs:element name="Nom" type="xs:string" />
+			<xs:element name="Prenom" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="MailType">
+		<xs:sequence>
+			<xs:element name="Perso" type="xs:string" />
+			<xs:element name="Domaine" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="AdressePostaleType">
+		<xs:sequence>
+			<xs:element name="Rue" type="xs:string" />
+			<xs:element name="Code" type="xs:string" />
+			<xs:element name="Ville" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	-->

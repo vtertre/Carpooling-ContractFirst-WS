@@ -1,0 +1,33 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:hr="http://iaws/ws/contractfirst/covoiturage"
+        elementFormDefault="qualified"
+        targetNamespace="http://iaws/ws/contractfirst/covoiturage">
+    <xs:element name="InscriptionRequest">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="Identite" type="hr:IdentiteType"/>   
+				<xs:element name="Mail" type="hr:MailType"/>
+				<xs:element name="AdressePostale" type="hr:AdressePostaleType"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="IdentiteType">
+        <xs:sequence>
+			<xs:element name="Nom" type="xs:string"/>
+            <xs:element name="Prenom" type="xs:string"/>                  
+        </xs:sequence>                                                                   
+    </xs:complexType>
+	<xs:complexType name="MailType">
+        <xs:sequence>
+			<xs:element name="Perso" type="xs:string"/>
+            <xs:element name="Domaine" type="xs:string"/>                  
+        </xs:sequence>                                                                   
+    </xs:complexType>
+	<xs:complexType name="AdressePostaleType">
+        <xs:sequence>
+			<xs:element name="Rue" type="xs:string"/>
+            <xs:element name="Code" type="xs:string"/> 
+			<xs:element name="Ville" type="xs:string"/>			
+        </xs:sequence>                                                                   
+    </xs:complexType>
+</xs:schema>

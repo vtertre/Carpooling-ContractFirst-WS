@@ -1,0 +1,15 @@
+{
+  " emailAddress ": {
+    "map": "function(doc) { if (doc.Mail)  emit(doc.Mail, null) }"
+    }
+ }
+ 
+Code Java:
+ 
+Document doc = new Document();
+doc.setId("_design/mailview");
+                 
+String str = "{\"emailAddress\": {\"map\": \"function(doc) { if (doc.Mail)  emit(doc.Mail, null) } \"}}";
+         
+doc.put("views", str); 
+db.saveDocument(doc);
