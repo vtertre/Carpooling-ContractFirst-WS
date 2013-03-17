@@ -1,4 +1,4 @@
 Covoiturage
 ===========
 
-Projet UE IAWS M1
+Projet IAWS
