@@ -1,5 +1,6 @@
-<InscriptionRequest xmlns="http://iaws/ws/contractfirst/covoiturage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://iaws/ws/contractfirst/covoiturage VicinityRequest.xsd">
+<VicinityRequest xmlns="http://iaws/ws/contractfirst/covoiturage"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://iaws/ws/contractfirst/covoiturage VicinityRequest.xsd">
 	<Identifiant>LastNameFirstName31000</Identifiant>
 	<Rayon>10</Rayon>
-</InscriptionRequest>
+</VicinityRequest>

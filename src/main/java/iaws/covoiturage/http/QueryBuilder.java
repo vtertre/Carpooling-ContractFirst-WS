@@ -14,11 +14,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class QueryBuilder {
 	
 	/**
-	 * Envoie une requête HTTP GET et retourne
-	 * la réponse du serveur.
+	 * Envoie une requete HTTP GET et retourne
+	 * la reponse du serveur.
 	 * 
-	 * @param query la requête à envoyer
-	 * @return la réponse du serveur
+	 * @param query la requete a envoyer
+	 * @return la reponse du serveur
 	 */
 	public static String httpGetQuery(String query) {
 		
@@ -35,7 +35,7 @@ public class QueryBuilder {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(instream));
 			String dataResponse = null;
 			 
-			// Réponse à la requête
+			// Reponse a la requete
 			while ((dataResponse = reader.readLine()) != null)
 				queryResponse += dataResponse;
 			

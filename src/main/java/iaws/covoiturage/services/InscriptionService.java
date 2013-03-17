@@ -11,15 +11,15 @@ public interface InscriptionService {
 
 	/**
 	 * Tente d'enregistrer un nouvel enseignant
-	 * et retourne une chaine de caractères représentant
+	 * et retourne une chaine de caracteres representant
 	 * un message suivant :
-	 * "OK" si l'enregistrement est réussi
-	 * "ERREUR_100" si l'adresse mail est déjà utilisée
+	 * "OK" si l'enregistrement est reussi
+	 * "ERREUR_100" si l'adresse mail est deja utilisee
 	 * "ERREUR_110" si l'adresse mail est invalide
 	 * "ERREUR_200" si l'adresse postale n'est pas connue d'OSM
 	 * 
 	 * @param lastName le nom de famille
-	 * @param firstName le prénom
+	 * @param firstName le prenom
 	 * @param mail l'adresse mail
 	 * @param mailingAddress l'adresse postale
 	 * @return

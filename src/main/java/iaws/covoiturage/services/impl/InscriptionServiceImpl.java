@@ -42,21 +42,21 @@ public class InscriptionServiceImpl implements InscriptionService {
 		
 		Coordinate addressCoord;
 		
-		// Vérification du domaine
+		// Verification du domaine
 		if (!mail.getDomain().equals("univ-tlse3.fr"))
 			return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetails110.xml");
 		
-		// Vérification de l'unicité
+		// Verification de l'unicite
 		if (checkMailUsed(mail.toString()))
 			return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetails100.xml");
 		
-		// Compatibilité OSM
+		// Compatibilite OSM
 		if ((addressCoord = getAddressCoordinates(mailingAddress.toString())) == null)
 			return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetails200.xml");
 		
 		Teacher teacher = new Teacher(lastName, firstName, mail, mailingAddress, addressCoord);
 		
-		// TODO A voir requête PUT au lieu d'utilisation lib
+		// TODO A voir requete PUT au lieu d'utilisation lib
 		// Enregistrement DB
 		DAOCouchDB<Teacher> teacherDAO = new TeacherCouchDB(DBConnection.getInstance());		
 		teacherDAO.insert(teacher);
@@ -65,10 +65,10 @@ public class InscriptionServiceImpl implements InscriptionService {
 	}
 	
 	/**
-	 * Vérifie l'unicité d'une adresse mail dans la base
+	 * Verifie l'unicite d'une adresse mail dans la base
 	 * 
-	 * @param email l'adresse à vérifier
-	 * @return true si l'adresse est déjà utilisée, false sinon
+	 * @param email l'adresse a verifier
+	 * @return true si l'adresse est deja utilisee, false sinon
 	 */
 	private boolean checkMailUsed(String email) {
 		
@@ -89,7 +89,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 		safeUrl = "http://" + ip + ":" + port + "/" + db_name + "/_design" +
 				"/mailview/_view/emailAddress?key=" + safeUrl;
 		
-		// Requête de type GET
+		// Requï¿½te de type GET
 		String response = QueryBuilder.httpGetQuery(safeUrl);
 		
 		// TODO Paser le JSon ... ?
@@ -100,11 +100,11 @@ public class InscriptionServiceImpl implements InscriptionService {
 	}
 	
 	/**
-	 * Recherche les coordonnées d'une adresse postale
+	 * Recherche les coordonnees d'une adresse postale
 	 * avec OSM
 	 * 
-	 * @param mailingAddress l'adresse postale à vérifier
-	 * @return les coordonnées (latitude, longitude)
+	 * @param mailingAddress l'adresse postale a verifier
+	 * @return les coordonnees (latitude, longitude)
 	 * 
 	 * @see QueryBuilder#httpGetQuery(String)
 	 */
@@ -121,18 +121,18 @@ public class InscriptionServiceImpl implements InscriptionService {
 		safeUrl = "http://nominatim.openstreetmap.org/search?q=" +
 				safeUrl + "&format=xml";
 		
-		// Requête de type GET
+		// Requete de type GET
 		String response = QueryBuilder.httpGetQuery(safeUrl);
 		
 		return getCoordinatesFromXML(response);
 	}
 	
 	/**
-	 * Recherche la Latitude & la Longitude dans une réponse
+	 * Recherche la Latitude & la Longitude dans une reponse
 	 * XML d'OSM.
 	 * 
-	 * @param xmlString la réponse à la requête GET
-	 * @return null si le lieu n'est pas répertorié, les coordonnées sinon
+	 * @param xmlString la reponse a la requete GET
+	 * @return null si le lieu n'est pas repertorie, les coordonnees sinon
 	 * 
 	 * @see QueryBuilder#httpGetQuery(String)
 	 */
@@ -145,7 +145,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 			Reader in = new StringReader(xmlString);
 			org.jdom2.Document xmlDoc = xmlBuilder.build(in);
 			
-			// TODO vérifier qu'on a bien une réponse pour lieu recherché
+			// TODO verifier qu'on a bien une reponse pour lieu recherche
 			// PAS SECURE
 			if (xmlDoc.getRootElement().getChildren().isEmpty())
 				return null;
@@ -163,17 +163,17 @@ public class InscriptionServiceImpl implements InscriptionService {
 		return coord;
 	}
 	
-	public static void main(String args[]) {
+	/*public static void main(String args[]) {
 		LastName ln = new LastName("Boul");
 		FirstName fn = new FirstName("Rash");
 		Mail mail = new Mail("rash.boul", "univ-tlse3.fr");
-		MailingAddress ma = new MailingAddress("Université Paul Sabatier", "31000", "Toulouse");
+		MailingAddress ma = new MailingAddress("Universite Paul Sabatier", "31000", "Toulouse");
 		
 		try {
 			System.out.println(new InscriptionServiceImpl().postTeacher(ln, fn, mail, ma));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 }
