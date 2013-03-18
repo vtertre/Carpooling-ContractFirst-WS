@@ -12,7 +12,7 @@
                       portTypeName="Inscription"
                       locationUri="/inscriptionService/"
                       targetNamespace="http://iaws/ws/contractfirst/covoiturage">
-        <sws:xsd location="/WEB-INF/xsd/inscription_request.xsd"/>
+        <sws:xsd location="/WEB-INF/xsd/InscriptionRequest.xsd"/>
     </sws:dynamic-wsdl>
 
     <bean id="inscriptionEndPoint"

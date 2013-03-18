@@ -52,11 +52,3 @@ public class InscriptionEndpoint {
 	}
 
 }
-
-/*@XPathParam("/InscriptionRequest/Identite/Nom") String lName,
-@XPathParam("/InscriptionRequest/Identite/Prenom") String fName,
-@XPathParam("/InscriptionRequest/Mail/Perso") String perso,
-@XPathParam("/InscriptionRequest/Mail/Domaine") String domain,
-@XPathParam("/InscriptionRequest/AdressePostale/Rue") String street,
-@XPathParam("/InscriptionRequest/AdressePostale/Code") String code,
-@XPathParam("/InscriptionRequest/AdressePostale/Ville") String city*/

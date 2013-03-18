@@ -163,7 +163,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 		return coord;
 	}
 	
-	/*public static void main(String args[]) {
+	public static void main(String args[]) {
 		LastName ln = new LastName("Boul");
 		FirstName fn = new FirstName("Rash");
 		Mail mail = new Mail("rash.boul", "univ-tlse3.fr");
@@ -174,6 +174,6 @@ public class InscriptionServiceImpl implements InscriptionService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 }

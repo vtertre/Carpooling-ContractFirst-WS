@@ -11,13 +11,13 @@
     <build>
         <finalName>Covoiturage</finalName>
         <plugins>
-            <plugin>
+            <!-- <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
@@ -46,10 +46,16 @@
             <artifactId>junit</artifactId>
             <version>4.11</version>
         </dependency>
-        <!-- <dependency>
-	        <groupId>com.google.code.jcouchdb</groupId>
-	        <artifactId>jcouchdb</artifactId>
-	        <version>0.11.0-1</version>
-	    </dependency> -->
     </dependencies>
+    
+    <reporting>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-report-plugin</artifactId>
+            <version>2.13</version>
+          </plugin>
+        </plugins>
+      </reporting>
+    
 </project>
