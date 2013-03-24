@@ -5,17 +5,13 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ResourceBundle;
 
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import iaws.covoiturage.dao.DAOCouchDB;
-import iaws.covoiturage.dao.DBConnection;
+import iaws.covoiturage.dao.DBUrl;
 import iaws.covoiturage.dao.TeacherCouchDB;
 import iaws.covoiturage.domain.Teacher;
 import iaws.covoiturage.domain.nomenclature.Coordinate;
@@ -23,7 +19,7 @@ import iaws.covoiturage.domain.nomenclature.FirstName;
 import iaws.covoiturage.domain.nomenclature.LastName;
 import iaws.covoiturage.domain.nomenclature.Mail;
 import iaws.covoiturage.domain.nomenclature.MailingAddress;
-import iaws.covoiturage.http.QueryBuilder;
+import iaws.covoiturage.rest.HttpRequest;
 import iaws.covoiturage.services.InscriptionService;
 import iaws.covoiturage.ws.contractfirst.XmlHelper;
 
@@ -31,10 +27,6 @@ import iaws.covoiturage.ws.contractfirst.XmlHelper;
 public class InscriptionServiceImpl implements InscriptionService {
 
 	/**
-	 * @throws SAXException 
-	 * @throws IOException 
-	 * @throws ParserConfigurationException 
-	 * @throws Exception 
 	 * @see InscriptionService#postTeacher(LastName, FirstName, Mail, MailingAddress)
 	 */
 	public Element postTeacher(LastName lastName, FirstName firstName,
@@ -56,9 +48,8 @@ public class InscriptionServiceImpl implements InscriptionService {
 		
 		Teacher teacher = new Teacher(lastName, firstName, mail, mailingAddress, addressCoord);
 		
-		// TODO A voir requete PUT au lieu d'utilisation lib
 		// Enregistrement DB
-		DAOCouchDB<Teacher> teacherDAO = new TeacherCouchDB(DBConnection.getInstance());		
+		DAOCouchDB<Teacher> teacherDAO = new TeacherCouchDB(DBUrl.getUrl());		
 		teacherDAO.insert(teacher);
 		
 		return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetailsOK.xml");
@@ -71,12 +62,6 @@ public class InscriptionServiceImpl implements InscriptionService {
 	 * @return true si l'adresse est deja utilisee, false sinon
 	 */
 	private boolean checkMailUsed(String email) {
-		
-		ResourceBundle res = ResourceBundle.getBundle("db");
-		
-		String ip = res.getString("db.ip");
-		int port = Integer.valueOf(res.getString("db.port"));
-		String db_name = res.getString("db.name");
 		 
 		// Encodage de l'adresse mail
 		String safeUrl = "\"" + email + "\"";
@@ -86,11 +71,11 @@ public class InscriptionServiceImpl implements InscriptionService {
 			e1.printStackTrace();
 		}
 		
-		safeUrl = "http://" + ip + ":" + port + "/" + db_name + "/_design" +
+		safeUrl = DBUrl.getUrl() + "/_design" +
 				"/mailview/_view/emailAddress?key=" + safeUrl;
 		
-		// Requ�te de type GET
-		String response = QueryBuilder.httpGetQuery(safeUrl);
+		// Requete de type GET
+		String response = HttpRequest.httpGetRequest(safeUrl);
 		
 		// TODO Paser le JSon ... ?
 		if (response.contains(email))
@@ -106,7 +91,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 	 * @param mailingAddress l'adresse postale a verifier
 	 * @return les coordonnees (latitude, longitude)
 	 * 
-	 * @see QueryBuilder#httpGetQuery(String)
+	 * @see HttpRequest#httpGetQuery(String)
 	 */
 	private Coordinate getAddressCoordinates(String mailingAddress) {
 		 
@@ -122,7 +107,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 				safeUrl + "&format=xml";
 		
 		// Requete de type GET
-		String response = QueryBuilder.httpGetQuery(safeUrl);
+		String response = HttpRequest.httpGetRequest(safeUrl);
 		
 		return getCoordinatesFromXML(response);
 	}
@@ -134,7 +119,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 	 * @param xmlString la reponse a la requete GET
 	 * @return null si le lieu n'est pas repertorie, les coordonnees sinon
 	 * 
-	 * @see QueryBuilder#httpGetQuery(String)
+	 * @see HttpRequest#httpGetQuery(String)
 	 */
 	private Coordinate getCoordinatesFromXML(String xmlString) {
 		
@@ -146,7 +131,6 @@ public class InscriptionServiceImpl implements InscriptionService {
 			org.jdom2.Document xmlDoc = xmlBuilder.build(in);
 			
 			// TODO verifier qu'on a bien une reponse pour lieu recherche
-			// PAS SECURE
 			if (xmlDoc.getRootElement().getChildren().isEmpty())
 				return null;
 			
@@ -163,17 +147,4 @@ public class InscriptionServiceImpl implements InscriptionService {
 		return coord;
 	}
 	
-	public static void main(String args[]) {
-		LastName ln = new LastName("Boul");
-		FirstName fn = new FirstName("Rash");
-		Mail mail = new Mail("rash.boul", "univ-tlse3.fr");
-		MailingAddress ma = new MailingAddress("Universite Paul Sabatier", "31000", "Toulouse");
-		
-		try {
-			System.out.println(new InscriptionServiceImpl().postTeacher(ln, fn, mail, ma));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 }

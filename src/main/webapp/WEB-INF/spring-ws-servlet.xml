@@ -7,7 +7,6 @@
 
     <sws:annotation-driven/>
 
-	<!-- portTypeName -> WSDL port type ? dafak ? -->
 	<sws:dynamic-wsdl id="inscription"
                       portTypeName="Inscription"
                       locationUri="/inscriptionService/"

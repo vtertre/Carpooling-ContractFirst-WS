@@ -15,11 +15,11 @@
 	
 	<Personnel>
 		<Identite>
-			<Nom>Bob</Nom>
-			<Prenom>Gaston</Prenom>
+			<Nom>Toto</Nom>
+			<Prenom>TotoAussi</Prenom>
 		</Identite>
 		<Mail>
-			<Perso>gaston.bob</Perso>
+			<Perso>toto</Perso>
 			<Domaine>univ-tlse3.fr</Domaine>
 		</Mail>
 	</Personnel>

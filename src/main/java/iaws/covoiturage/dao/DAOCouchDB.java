@@ -1,13 +1,11 @@
 package iaws.covoiturage.dao;
 
-import com.fourspaces.couchdb.Database;
-
 public abstract class DAOCouchDB<T> implements DAO<T> {
 	
-	protected Database db;
+	protected String dbUrl;
 	
-	public DAOCouchDB(Database db) {
-		this.db = db;		
+	public DAOCouchDB(String dbUrl) {
+		this.dbUrl = dbUrl;		
 	}
 
 }

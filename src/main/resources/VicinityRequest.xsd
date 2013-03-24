@@ -1,50 +1,43 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:hr="http://iaws/ws/contractfirst/covoiturage" elementFormDefault="qualified"
+	xmlns:cov="http://iaws/ws/contractfirst/covoiturage" elementFormDefault="qualified"
 	targetNamespace="http://iaws/ws/contractfirst/covoiturage">
-
-	<xs:element name="VicinityRequest" type="exem:VicinityRequestType"
-		xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
-
-	<xs:complexType name="VicinityRequestType">
-		<xs:all>
-			<xs:element type="xs:string" name="Identifiant" />
-			<xs:element type="xs:string" name="Rayon" />
-		</xs:all>
-	</xs:complexType>
-
-
-	<xs:element name="VicinityDetails" type="exem:VicinityDetailsType"
-		xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
-
-	<xs:complexType name="VicinityDetailsType">
-		<xs:sequence>
-			<xs:element type="exem:PersonnelType" name="Personnel"
-				maxOccurs="unbounded" minOccurs="0"
-				xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
-		</xs:sequence>
-	</xs:complexType>
-
+	
+	<xs:element name="VicinityRequest">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Identifiant" type="xs:string" />
+				<xs:element name="Rayon" type="xs:short" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="VicinityDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Personnel" type="cov:PersonnelType" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:complexType name="PersonnelType">
 		<xs:all>
-			<xs:element type="exem:IdentiteType" name="Identite"
-				maxOccurs="1" minOccurs="1" xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
-			<xs:element type="exem:MailType" name="Mail" maxOccurs="1"
-				minOccurs="1" xmlns:exem="http://iaws/ws/contractfirst/covoiturage" />
+			<xs:element name="Identite" type="cov:IdentiteType" />
+			<xs:element name="Mail" type="cov:MailType" />
 		</xs:all>
 	</xs:complexType>
 	
 	<xs:complexType name="IdentiteType">
 		<xs:all>
-			<xs:element type="xs:string" name="Nom" />
-			<xs:element type="xs:string" name="Prenom" />
+			<xs:element name="Nom" type="xs:string" />
+			<xs:element name="Prenom" type="xs:string" />
 		</xs:all>
 	</xs:complexType>
-
+	
 	<xs:complexType name="MailType">
 		<xs:all>
-			<xs:element type="xs:string" name="Perso" />
-			<xs:element type="xs:string" name="Domaine" />
+			<xs:element name="Perso" type="xs:string" />
+			<xs:element name="Domaine" type="xs:string" />
 		</xs:all>
 	</xs:complexType>
-
+	
 </xs:schema>

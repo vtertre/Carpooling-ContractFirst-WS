@@ -1,6 +1,6 @@
 package iaws.covoiturage.services;
 
-import org.w3c.dom.Element;
+import org.jdom2.Element;
 
 import iaws.covoiturage.domain.nomenclature.FirstName;
 import iaws.covoiturage.domain.nomenclature.LastName;

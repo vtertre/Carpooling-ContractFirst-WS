@@ -37,6 +37,8 @@ public class IntegrationTestInscriptionEndpoint {
 
         mockClient.sendRequest(withPayload(requestPayload)).
                 andExpect(payload(responsePayload));
+        
+        //mockClient.sendRequest(withPayload(requestPayload));
     }
 
 }

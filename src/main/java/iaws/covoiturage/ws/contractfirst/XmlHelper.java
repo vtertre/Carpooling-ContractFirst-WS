@@ -2,32 +2,26 @@ package iaws.covoiturage.ws.contractfirst;
 
 import java.io.IOException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 public class XmlHelper {
 	
 	/**
-     * Return he dom root element of an xml file
+     * Return the dom root element of an xml file
      * @param filePathInClassPath  the file path relative to the classpath
      * @return  the root element
-     * @throws ParserConfigurationException
+	 * @throws JDOMException 
      * @throws IOException
-     * @throws SAXException
      */
-    public static Element getRootElementFromFileInClasspath(String filePathInClassPath) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-        // root elements
-        Document doc = docBuilder.parse(new ClassPathResource(filePathInClassPath).getInputStream());
-        return doc.getDocumentElement();
+    public static Element getRootElementFromFileInClasspath(String filePathInClassPath) throws JDOMException, IOException{    	
+    	SAXBuilder builder = new SAXBuilder();
+    	
+    	Document document = (Document) builder.build(new ClassPathResource(filePathInClassPath).getInputStream());
+    	return document.getRootElement();
     }
 
 }
