@@ -10,8 +10,8 @@
 		<constructor-arg name="inscriptionService" ref="inscriptionService" />
 	</bean>
 	<bean id="inscriptionService" class="iaws.covoiturage.services.impl.InscriptionServiceImpl" />
-	<!-- <bean id="vicinityEndPoint" class="iaws.covoiturage.ws.contractfirst.VicinityEndpoint"> 
-		<constructor-arg name="inscriptionService" ref="inscriptionService" /> </bean> 
-		<bean id="vicinityService" class="iaws.covoiturage.services.impl.VicinityServiceImpl" 
-		/> -->
+	<bean id="vicinityEndPoint" class="iaws.covoiturage.ws.contractfirst.VicinityEndpoint">
+		<constructor-arg name="vicinityService" ref="vicinityService" />
+	</bean>
+	<bean id="vicinityService" class="iaws.covoiturage.services.impl.VicinityServiceImpl" />
 </beans>
