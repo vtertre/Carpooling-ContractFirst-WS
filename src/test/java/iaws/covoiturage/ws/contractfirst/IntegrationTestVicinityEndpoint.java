@@ -18,7 +18,7 @@ import org.springframework.ws.test.server.MockWebServiceClient;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("application-context.xml")
-public class IntegrationTestInscriptionEndpoint {
+public class IntegrationTestVicinityEndpoint {
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -33,13 +33,14 @@ public class IntegrationTestInscriptionEndpoint {
 	@Test
 	public void inscriptionEndpoint() throws Exception {
 		Source requestPayload = new StreamSource(new ClassPathResource(
-				"InscriptionRequest.xml").getInputStream());
+				"VicinityRequest.xml").getInputStream());
 		Source responsePayload = new StreamSource(new ClassPathResource(
-				"InscriptionDetailsOK.xml").getInputStream());
+				"VicinityDetails.xml").getInputStream());
 
 		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
 				payload(responsePayload));
 
+		// mockClient.sendRequest(withPayload(requestPayload));
 	}
 
 }
