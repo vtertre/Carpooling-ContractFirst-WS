@@ -1,6 +1,8 @@
 package iaws.covoiturage.services;
 
-import org.jdom2.Element;
+import iaws.covoiturage.domain.Teacher;
+
+import java.util.ArrayList;
 
 
 public interface VicinityService {
@@ -14,6 +16,6 @@ public interface VicinityService {
 	 *            le rayon de voisinnage en kilomètres
 	 * @return
 	 */
-	public Element getNeighbors(String id, int radius) throws Exception;
+	public ArrayList<Teacher> getNeighbors(String id, int radius) throws Exception;
 
 }

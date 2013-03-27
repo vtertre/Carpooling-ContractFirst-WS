@@ -1,13 +1,16 @@
 package iaws.covoiturage.ws.contractfirst;
 
+import java.util.ArrayList;
+
+import iaws.covoiturage.domain.Teacher;
 import iaws.covoiturage.services.VicinityService;
 
 import org.jdom2.Element;
-import org.jdom2.Namespace;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.Namespace;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+import org.springframework.ws.server.endpoint.annotation.XPathParam;
 
 @Endpoint
 public class VicinityEndpoint {
@@ -21,14 +24,17 @@ public class VicinityEndpoint {
 	}
 	
 	@PayloadRoot(localPart = "VicinityRequest", namespace = NAMESPACE_URI)
+	@Namespace(prefix = "cov", uri = NAMESPACE_URI)
 	@ResponsePayload
-	public Element handleInscriptionRequest(@RequestPayload Element root) throws Exception {
+	public Element handleInscriptionRequest(@XPathParam("/cov:VicinityRequest/cov:Identifiant") String id,
+			@XPathParam("/cov:VicinityRequest/cov:Rayon") int radius) throws Exception {
 		
-		Namespace ns = Namespace.getNamespace(NAMESPACE_URI);
-		String id = root.getChild("Identifiant", ns).getText();
-		int radius = Integer.parseInt(root.getChild("Rayon", ns).getText());
+		ArrayList<Teacher> neighbors = vicinityService.getNeighbors(id, radius);
 		
-		return vicinityService.getNeighbors(id, radius);
+		for (Teacher t : neighbors)
+			System.out.println(t.getMail().toString());
+		
+		return null;
 		
 	}
 

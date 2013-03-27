@@ -1,28 +1,21 @@
 package iaws.covoiturage.services.impl;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 
-import iaws.covoiturage.dao.DAOCouchDB;
 import iaws.covoiturage.dao.DBUrl;
-import iaws.covoiturage.dao.TeacherCouchDB;
 import iaws.covoiturage.domain.Teacher;
 import iaws.covoiturage.domain.nomenclature.Coordinate;
 import iaws.covoiturage.domain.nomenclature.FirstName;
 import iaws.covoiturage.domain.nomenclature.LastName;
 import iaws.covoiturage.domain.nomenclature.Mail;
-import iaws.covoiturage.domain.nomenclature.MailingAddress;
 import iaws.covoiturage.rest.HttpRequest;
-import iaws.covoiturage.services.InscriptionService;
 import iaws.covoiturage.services.VicinityService;
-import iaws.covoiturage.ws.contractfirst.XmlHelper;
 
 public class VicinityServiceImpl implements VicinityService {
 
@@ -30,93 +23,139 @@ public class VicinityServiceImpl implements VicinityService {
 	 * @see VicinityService#getNeighbors(String int)
 	 */
 	@Override
-	public Element getNeighbors(String id, int radius) throws Exception {
-		LastName lastName;
-		FirstName firstName;
-		int code = 0;
-
-		// Un ID est de la forme LastnameFirstnameCodepostal
-		if (Character.isUpperCase(id.charAt(0))) {
-			for (int i = 1; i < id.length(); i++) {
-				if(Character.isUpperCase(id.charAt(i))) {
-					lastName = new LastName(id.substring(0, i-1));
-					code = i;
-				} else if (Character.isDigit(id.charAt(i))) {
-					firstName = new FirstName(id.substring(code, i-1));
-					code = Integer.parseInt(id.substring(i));
-				}
-			}
-		}
-		// TODO ajouter la requête
-		String response = HttpRequest.httpGetRequest(DBUrl.getUrl());
+	public ArrayList<Teacher> getNeighbors(String id, int radius) throws Exception {
+		Coordinate userCoordinates;
 		
+		// TODO Exception
+		if ((userCoordinates = getUserCoordinates(id)) == null)
 			return null;
+
+		return getTeachersWithinRadius(userCoordinates, radius);
+	}
+	
+	private ArrayList<Teacher> getTeachersWithinRadius(Coordinate coord, int radius) {
+		
+		String url = DBUrl.getUrl() + "/_design"
+				+ "/allview/_view/allDocs";
+		String docs = "";
+		try {
+			docs = new String(HttpRequest.httpGetRequest(url).getBytes("ISO8859-1"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		//System.out.println(docs);
+		
+		return searchTeachers(docs, coord, radius);
+	}
+	
+	private ArrayList<Teacher> searchTeachers(String jsonResponse, Coordinate coord, int radius) {
+		ArrayList<Teacher> list = new ArrayList<>();
+		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonResponse);
+		JSONArray rows = json.getJSONArray("rows");
+
+		if (rows.size() <= 0) {
+			System.out.println("Aucun documents dans la base.");
+			return list;
+		}
+		
+		for (int i = 0; i < rows.size(); ++i) {
+			String lat = rows.getJSONObject(i).getJSONObject("value").
+					getJSONObject("Coordonnees").getString("Latitude");
+
+			String lon = rows.getJSONObject(i).getJSONObject("value").
+					getJSONObject("Coordonnees").getString("Longitude");
+			
+			double dist = calculateDistance(coord.getLatitude(), coord.getLongitude(),
+					Double.valueOf(lat), Double.valueOf(lon));
+			
+			if (dist <= radius && dist != 0D) {
+				
+				LastName ln = new LastName(rows.getJSONObject(i).getJSONObject("value").getString("Nom"));
+				FirstName fn = new FirstName(rows.getJSONObject(i).getJSONObject("value").getString("Prenom"));
+				String perso = rows.getJSONObject(i).getJSONObject("value").getString("Mail");
+				
+				perso = perso.substring(0, perso.indexOf("@"));
+				
+				Mail mail = new Mail(perso, "univ-tlse3.fr");
+				list.add(new Teacher(ln, fn, mail));
+			}
+		}		
+		
+		return list;
+	}
+	
+	private static double calculateDistance(double lat1, double lon1,
+			double lat2, double lon2) {
+		
+		double earthRadius = 6371D;
+		double dLat = Math.toRadians(lat2 - lat1);
+		double dLon = Math.toRadians(lon2 - lon1);
+		lat1 = Math.toRadians(lat1);
+		lat2 = Math.toRadians(lat2);
+		
+		double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.sin(dLon / 2) * Math.sin(dLon / 2) *
+				Math.cos(lat1) * Math.cos(lat2);
+		
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		
+		return earthRadius * c;
 	}
 
+	private Coordinate getUserCoordinates(String id) {
 
-
-	/**
-	 * Recherche les coordonnees d'une adresse postale avec OSM
-	 * 
-	 * @param mailingAddress
-	 *            l'adresse postale a verifier
-	 * @return les coordonnees (latitude, longitude)
-	 * 
-	 * @see HttpRequest#httpGetQuery(String)
-	 */
-	private Coordinate getAddressCoordinates(String mailingAddress) {
-
-		// Encodage de l'adresse postale
-		String safeUrl = mailingAddress;
+		// Encodage de l'adresse mail
+		String safeUrl = "\"" + id + "\"";
 		try {
 			safeUrl = URLEncoder.encode(safeUrl, "UTF-8");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
 
-		safeUrl = "http://nominatim.openstreetmap.org/search?q=" + safeUrl
-				+ "&format=xml";
+		safeUrl = DBUrl.getUrl() + "/_design"
+				+ "/coordview/_view/coordinates?key=" + safeUrl;
 
 		// Requete de type GET
 		String response = HttpRequest.httpGetRequest(safeUrl);
 
-		return getCoordinatesFromXML(response);
+		//System.out.println(response);
+
+		return getCoordinatesFromResponse(response);
 	}
+	
+	private Coordinate getCoordinatesFromResponse(String jsonResponse) {
 
-	/**
-	 * Recherche la Latitude & la Longitude dans une reponse XML d'OSM.
-	 * 
-	 * @param xmlString
-	 *            la reponse a la requete GET
-	 * @return null si le lieu n'est pas repertorie, les coordonnees sinon
-	 * 
-	 * @see HttpRequest#httpGetQuery(String)
-	 */
-	private Coordinate getCoordinatesFromXML(String xmlString) {
+		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonResponse);
+		JSONArray rows = json.getJSONArray("rows");
 
-		Coordinate coord = null;
-
-		try {
-			SAXBuilder xmlBuilder = new SAXBuilder();
-			Reader in = new StringReader(xmlString);
-			org.jdom2.Document xmlDoc = xmlBuilder.build(in);
-
-			// TODO verifier qu'on a bien une reponse pour lieu recherche
-			if (xmlDoc.getRootElement().getChildren().isEmpty())
-				return null;
-
-			coord = new Coordinate(Double.valueOf(xmlDoc.getRootElement()
-					.getChild("place").getAttribute("lat").getValue()),
-					Double.valueOf(xmlDoc.getRootElement().getChild("place")
-							.getAttribute("lon").getValue()));
-
-		} catch (JDOMException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (rows.size() <= 0) {
+			System.out.println("Identifiant inconnu.");
+			return null;
 		}
 
-		return coord;
+		String lat = rows.getJSONObject(0).getJSONObject("value").
+				getString("Latitude");
+
+		String lon = rows.getJSONObject(0).getJSONObject("value").
+				getString("Longitude");
+		
+		return new Coordinate(Double.valueOf(lat), Double.valueOf(lon));
 	}
+	
+	
+	//________________________________________________________________________
+
+	/*public static void main(String args[]) {
+		Session s = new Session("localhost", 5984);
+		Database db = s.getDatabase("iaws_ws_covoiturage");
+		Document doc = new Document();
+		doc.setId("_design/coordview");
+				                 
+		String str = "{\"coordinates\": {\"map\": \"function(doc) { if (doc._id)  emit(doc.Mail, doc.Coordonnees) } \"}}";
+				         
+		doc.put("views", str); 
+		db.saveDocument(doc);
+	}*/
 
 }

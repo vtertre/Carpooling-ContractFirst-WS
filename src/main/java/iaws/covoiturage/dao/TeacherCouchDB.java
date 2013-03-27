@@ -22,17 +22,19 @@ public class TeacherCouchDB extends DAOCouchDB<Teacher> {
 		StringEntity entity = null;
 
 		try {
-			doc.put("_id", item.getLastName().getName()
-					+ item.getFirstName().getName()
-					+ item.getMailingAddress().getCode());
+			doc.put("_id", item.getMail().getName());
 			doc.put("Nom", item.getLastName().getName());
 			doc.put("Prenom", item.getFirstName().getName());
 			doc.put("Mail", item.getMail().toString());
 			doc.put("AdressePostale", item.getMailingAddress().toString());
-			doc.put("Latitude", item.getCoordinates().getLatitude());
-			doc.put("Longitude", item.getCoordinates().getLongitude());
+			JSONObject j = new JSONObject();
+			j.put("Latitude", item.getCoordinates().getLatitude());
+			j.put("Longitude", item.getCoordinates().getLongitude());
+			doc.put("Coordonnees", j);
+			//doc.put("Latitude", item.getCoordinates().getLatitude());
+			//doc.put("Longitude", item.getCoordinates().getLongitude());
 			
-			entity = new StringEntity(doc.toString(), "UTF-8");			
+			entity = new StringEntity(doc.toString(), "UTF-8");	
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {

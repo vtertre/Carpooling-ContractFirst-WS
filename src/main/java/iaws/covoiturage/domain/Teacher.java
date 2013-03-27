@@ -26,6 +26,12 @@ public class Teacher {
 		this.mailingAddress = mailingAddress;
 		this.coordinate = coord;
 	}
+	
+	public Teacher(LastName lastName, FirstName firstName, Mail mail) {
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.mail = mail;
+	}
 
 	public LastName getLastName() {
 		return lastName;

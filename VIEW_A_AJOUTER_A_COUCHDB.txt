@@ -13,3 +13,27 @@ String str = "{\"emailAddress\": {\"map\": \"function(doc) { if (doc.Mail)  emit
          
 doc.put("views", str); 
 db.saveDocument(doc);
+
+//_________________________________________________________________________
+
+Session s = new Session("localhost", 5984);
+Database db = s.getDatabase("iaws_ws_covoiturage");
+Document doc = new Document();
+doc.setId("_design/coordview");
+		                 
+String str = "{\"coordinates\": {\"map\": \"function(doc) { if (doc._id)  emit(doc.Mail, doc.Coordonnees) } \"}}";
+		         
+doc.put("views", str); 
+db.saveDocument(doc);
+
+//_________________________________________________________________________
+
+Session s = new Session("localhost", 5984);
+Database db = s.getDatabase("iaws_ws_covoiturage");
+Document doc = new Document();
+doc.setId("_design/allview");
+		                 
+String str = "{\"allDocs\": {\"map\": \"function(doc) { if (doc)  emit(null, doc) } \"}}";
+		         
+doc.put("views", str); 
+db.saveDocument(doc);
