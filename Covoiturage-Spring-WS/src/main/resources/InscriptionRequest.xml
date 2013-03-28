@@ -1,0 +1,16 @@
+<InscriptionRequest xmlns="http://iaws/ws/contractfirst/covoiturage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://iaws/ws/contractfirst/covoiturage InscriptionRequest.xsd">
+	<Identite>
+		<Nom>Totoé</Nom>
+		<Prenom>TotoAussi</Prenom>
+	</Identite>
+	<Mail>
+		<Perso>toto</Perso>
+		<Domaine>univ-tlse3.fr</Domaine>
+	</Mail>
+	<AdressePostale>
+		<Rue>Université Paul Sabatier</Rue>
+		<Code>31000</Code>
+		<Ville>Toulouse</Ville>
+	</AdressePostale>
+</InscriptionRequest>

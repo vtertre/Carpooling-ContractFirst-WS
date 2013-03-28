@@ -1,0 +1,43 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:cov="http://iaws/ws/contractfirst/covoiturage" elementFormDefault="qualified"
+	targetNamespace="http://iaws/ws/contractfirst/covoiturage">
+	
+	<xs:element name="VicinityRequest">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Identifiant" type="xs:string" />
+				<xs:element name="Rayon" type="xs:short" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="VicinityDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Personnel" type="cov:PersonnelType" maxOccurs="unbounded" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="PersonnelType">
+		<xs:all>
+			<xs:element name="Identite" type="cov:IdentiteType" />
+			<xs:element name="Mail" type="cov:MailType" />
+		</xs:all>
+	</xs:complexType>
+	
+	<xs:complexType name="IdentiteType">
+		<xs:all>
+			<xs:element name="Nom" type="xs:string" />
+			<xs:element name="Prenom" type="xs:string" />
+		</xs:all>
+	</xs:complexType>
+	
+	<xs:complexType name="MailType">
+		<xs:all>
+			<xs:element name="Perso" type="xs:string" />
+			<xs:element name="Domaine" type="xs:string" />
+		</xs:all>
+	</xs:complexType>
+	
+</xs:schema>
