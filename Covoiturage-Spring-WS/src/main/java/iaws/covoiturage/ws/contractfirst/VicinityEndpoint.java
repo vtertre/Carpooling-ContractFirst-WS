@@ -31,11 +31,7 @@ public class VicinityEndpoint {
 		
 		ArrayList<Teacher> neighbors = vicinityService.getNeighbors(id, radius);
 		
-		for (Teacher t : neighbors)
-			System.out.println(t.getMail().toString());
-		
-		return null;
-		
+		return XmlBuilder.getElementFromNeighborsList(neighbors);		
 	}
 
 }
