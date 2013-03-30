@@ -1,4 +1,0 @@
-<InscriptionDetails xmlns="http://iaws/ws/contractfirst/covoiturage" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://iaws/ws/contractfirst/covoiturage InscriptionRequest.xsd">
-	<Code>ERREUR_110</Code>
-</InscriptionDetails>

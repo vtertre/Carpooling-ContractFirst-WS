@@ -5,6 +5,7 @@ import iaws.covoiturage.domain.nomenclature.LastName;
 import iaws.covoiturage.domain.nomenclature.Mail;
 import iaws.covoiturage.domain.nomenclature.MailingAddress;
 import iaws.covoiturage.services.InscriptionService;
+import iaws.covoiturage.util.XmlBuilder;
 
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -42,7 +43,9 @@ public class InscriptionEndpoint {
 				root.getChild("AdressePostale", ns).getChildText("Code", ns),
 				root.getChild("AdressePostale", ns).getChildText("Ville", ns));
 		
-		return inscriptionService.postTeacher(lastName, firstName, mail, mailingAddress);
+		String codeOp = inscriptionService.postTeacher(lastName, firstName, mail, mailingAddress);
+		
+		return XmlBuilder.getElementFromInscriptionCode(codeOp);
 	}
 
 }

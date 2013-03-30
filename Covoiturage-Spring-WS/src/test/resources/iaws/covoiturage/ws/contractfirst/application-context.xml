@@ -6,12 +6,20 @@
 
 	<sws:annotation-driven />
 
+	<!-- Inscription beans -->
+
 	<bean id="inscriptionEndPoint" class="iaws.covoiturage.ws.contractfirst.InscriptionEndpoint">
 		<constructor-arg name="inscriptionService" ref="inscriptionService" />
 	</bean>
+
 	<bean id="inscriptionService" class="iaws.covoiturage.services.impl.InscriptionServiceImpl" />
+
+
+	<!-- Vicinity beans -->
+
 	<bean id="vicinityEndPoint" class="iaws.covoiturage.ws.contractfirst.VicinityEndpoint">
 		<constructor-arg name="vicinityService" ref="vicinityService" />
 	</bean>
+
 	<bean id="vicinityService" class="iaws.covoiturage.services.impl.VicinityServiceImpl" />
 </beans>

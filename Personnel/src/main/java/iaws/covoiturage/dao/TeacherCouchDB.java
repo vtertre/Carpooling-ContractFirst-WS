@@ -2,9 +2,9 @@ package iaws.covoiturage.dao;
 
 import java.io.UnsupportedEncodingException;
 
+import net.sf.json.JSONObject;
+
 import org.apache.http.entity.StringEntity;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import iaws.covoiturage.domain.Teacher;
 import iaws.covoiturage.rest.HttpRequest;
@@ -30,16 +30,13 @@ public class TeacherCouchDB extends DAOCouchDB<Teacher> {
 			coord.put("Latitude", item.getCoordinates().getLatitude());
 			coord.put("Longitude", item.getCoordinates().getLongitude());
 			doc.put("Coordonnees", coord);
-			
-			entity = new StringEntity(doc.toString(), "UTF-8");	
-		} catch (JSONException e) {
-			e.printStackTrace();
+
+			entity = new StringEntity(doc.toString(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 
-		String response = HttpRequest.httpPostRequest(dbUrl, entity);
-		System.out.println(response);
+		HttpRequest.httpPostRequest(dbUrl, entity);
 	}
-	
+
 }

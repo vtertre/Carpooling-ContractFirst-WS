@@ -39,8 +39,6 @@ public class IntegrationTestVicinityEndpoint {
 
 		mockClient.sendRequest(withPayload(requestPayload)).andExpect(
 				payload(responsePayload));
-
-		// mockClient.sendRequest(withPayload(requestPayload));
 	}
 
 }

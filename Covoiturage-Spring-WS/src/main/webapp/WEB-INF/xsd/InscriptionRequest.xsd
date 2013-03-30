@@ -34,4 +34,12 @@
 		</xs:sequence>
 	</xs:complexType>
 	
+	<xs:element name="InscriptionDetails">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="Code" type="xs:string" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+	
 </xs:schema>

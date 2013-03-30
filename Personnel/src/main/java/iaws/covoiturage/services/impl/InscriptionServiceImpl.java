@@ -6,7 +6,6 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
@@ -28,22 +27,22 @@ public class InscriptionServiceImpl implements InscriptionService {
 	/**
 	 * @see InscriptionService#postTeacher(LastName, FirstName, Mail, MailingAddress)
 	 */
-	public Element postTeacher(LastName lastName, FirstName firstName,
+	public String postTeacher(LastName lastName, FirstName firstName,
 			Mail mail, MailingAddress mailingAddress) throws Exception {
 		
 		Coordinate addressCoord;
 		
 		// Verification du domaine
 		if (!mail.getDomain().equals("univ-tlse3.fr"))
-			return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetails110.xml");
+			return "ERREUR_110";
 		
 		// Verification de l'unicite
 		if (checkMailUsed(mail.toString()))
-			return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetails100.xml");
+			return "ERREUR_100";
 		
 		// Compatibilite OSM
 		if ((addressCoord = getAddressCoordinates(mailingAddress.toString())) == null)
-			return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetails200.xml");
+			return "ERREUR_200";
 		
 		Teacher teacher = new Teacher(lastName, firstName, mail, mailingAddress, addressCoord);
 		
@@ -51,7 +50,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 		DAOCouchDB<Teacher> teacherDAO = new TeacherCouchDB(DBUrl.getUrl());		
 		teacherDAO.insert(teacher);
 		
-		return XmlHelper.getRootElementFromFileInClasspath("InscriptionDetailsOK.xml");
+		return "OK";
 	}
 	
 	/**

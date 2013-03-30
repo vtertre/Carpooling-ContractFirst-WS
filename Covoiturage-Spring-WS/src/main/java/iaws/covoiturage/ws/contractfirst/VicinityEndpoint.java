@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import iaws.covoiturage.domain.Teacher;
 import iaws.covoiturage.services.VicinityService;
+import iaws.covoiturage.util.XmlBuilder;
 
 import org.jdom2.Element;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;

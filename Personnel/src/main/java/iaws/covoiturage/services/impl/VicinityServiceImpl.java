@@ -14,20 +14,21 @@ import iaws.covoiturage.domain.nomenclature.Coordinate;
 import iaws.covoiturage.domain.nomenclature.FirstName;
 import iaws.covoiturage.domain.nomenclature.LastName;
 import iaws.covoiturage.domain.nomenclature.Mail;
+import iaws.covoiturage.exception.UnregisteredIDException;
 import iaws.covoiturage.rest.HttpRequest;
 import iaws.covoiturage.services.VicinityService;
 
 public class VicinityServiceImpl implements VicinityService {
 
 	/**
+	 * @throws UnregisteredIDException 
 	 * @see VicinityService#getNeighbors(String int)
 	 */
-	public ArrayList<Teacher> getNeighbors(String id, int radius) throws Exception {
+	public ArrayList<Teacher> getNeighbors(String id, int radius) throws UnregisteredIDException {
 		Coordinate userCoordinates;
 		
-		// TODO Exception
 		if ((userCoordinates = getUserCoordinates(id)) == null)
-			return null;
+			throw new UnregisteredIDException("Identifiant non enregistré en base.");
 
 		return getTeachersWithinRadius(userCoordinates, radius);
 	}
@@ -52,6 +53,8 @@ public class VicinityServiceImpl implements VicinityService {
 		ArrayList<Teacher> list = new ArrayList<>();
 		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonResponse);
 		JSONArray rows = json.getJSONArray("rows");
+		
+		//System.out.println(jsonResponse);
 
 		if (rows.size() <= 0) {
 			System.out.println("Aucun documents dans la base.");
@@ -59,24 +62,25 @@ public class VicinityServiceImpl implements VicinityService {
 		}
 		
 		for (int i = 0; i < rows.size(); ++i) {
-			String lat = rows.getJSONObject(i).getJSONObject("value").
-					getJSONObject("Coordonnees").getString("Latitude");
+			double lat = Double.valueOf(rows.getJSONObject(i).getJSONObject("value").
+					getJSONObject("Coordonnees").getString("Latitude"));
 
-			String lon = rows.getJSONObject(i).getJSONObject("value").
-					getJSONObject("Coordonnees").getString("Longitude");
+			double lon = Double.valueOf(rows.getJSONObject(i).getJSONObject("value").
+					getJSONObject("Coordonnees").getString("Longitude"));
 			
 			double dist = calculateDistance(coord.getLatitude(), coord.getLongitude(),
-					Double.valueOf(lat), Double.valueOf(lon));
+					lat, lon);
 			
 			if (dist <= radius && dist != 0D) {
 				
 				LastName ln = new LastName(rows.getJSONObject(i).getJSONObject("value").getString("Nom"));
 				FirstName fn = new FirstName(rows.getJSONObject(i).getJSONObject("value").getString("Prenom"));
-				String perso = rows.getJSONObject(i).getJSONObject("value").getString("Mail");
 				
-				perso = perso.substring(0, perso.indexOf("@"));
+				String perso = rows.getJSONObject(i).getJSONObject("value").getString("Mail");				
+				int ind = perso.indexOf("@");
+				Mail mail = new Mail(perso.substring(0, ind),
+						perso.substring(ind + 1, perso.length()));
 				
-				Mail mail = new Mail(perso, "univ-tlse3.fr");
 				list.add(new Teacher(ln, fn, mail));
 			}
 		}		
@@ -118,20 +122,17 @@ public class VicinityServiceImpl implements VicinityService {
 		// Requete de type GET
 		String response = HttpRequest.httpGetRequest(safeUrl);
 
-		//System.out.println(response);
-
 		return getCoordinatesFromResponse(response);
 	}
 	
 	private Coordinate getCoordinatesFromResponse(String jsonResponse) {
-
 		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonResponse);
 		JSONArray rows = json.getJSONArray("rows");
+		
+		//System.out.println(jsonResponse);
 
-		if (rows.size() <= 0) {
-			System.out.println("Identifiant inconnu.");
+		if (rows.size() <= 0)
 			return null;
-		}
 
 		String lat = rows.getJSONObject(0).getJSONObject("value").
 				getString("Latitude");

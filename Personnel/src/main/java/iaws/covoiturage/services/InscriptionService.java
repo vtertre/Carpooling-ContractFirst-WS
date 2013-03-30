@@ -1,7 +1,5 @@
 package iaws.covoiturage.services;
 
-import org.jdom2.Element;
-
 import iaws.covoiturage.domain.nomenclature.FirstName;
 import iaws.covoiturage.domain.nomenclature.LastName;
 import iaws.covoiturage.domain.nomenclature.Mail;
@@ -24,7 +22,7 @@ public interface InscriptionService {
 	 * @param mailingAddress l'adresse postale
 	 * @return
 	 */
-	public Element postTeacher(LastName lastName, FirstName firstName,
+	public String postTeacher(LastName lastName, FirstName firstName,
 			Mail mail, MailingAddress mailingAddress) throws Exception;
 	
 }
