@@ -28,7 +28,7 @@ public class VicinityServiceImpl implements VicinityService {
 		Coordinate userCoordinates;
 		
 		if ((userCoordinates = getUserCoordinates(id)) == null)
-			throw new UnregisteredIDException("Identifiant non enregistré en base.");
+			throw new UnregisteredIDException("Identifiant non enregistre en base.");
 
 		return getTeachersWithinRadius(userCoordinates, radius);
 	}
@@ -50,7 +50,7 @@ public class VicinityServiceImpl implements VicinityService {
 	}
 	
 	private ArrayList<Teacher> searchTeachers(String jsonResponse, Coordinate coord, int radius) {
-		ArrayList<Teacher> list = new ArrayList<>();
+		ArrayList<Teacher> list = new ArrayList<Teacher>();
 		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonResponse);
 		JSONArray rows = json.getJSONArray("rows");
 		

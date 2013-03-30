@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -22,8 +23,7 @@ public class HttpRequest {
 	 * @param query la requete a envoyer
 	 * @return la reponse du serveur
 	 */
-	public static String httpGetRequest(String query) {
-		
+	public static String httpGetRequest(String query) {		
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpGet get = new HttpGet(query);
 		 
@@ -46,8 +46,7 @@ public class HttpRequest {
 	 * @param object l'objet a attacher a la requete
 	 * @return la reponse du serveur
 	 */
-	public static String httpPostRequest(String url, StringEntity object) {
-		
+	public static String httpPostRequest(String url, StringEntity object) {		
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpPost request = new HttpPost(url);
 		request.setEntity(object);
@@ -57,6 +56,28 @@ public class HttpRequest {
 		try {
 			request.setHeader(new BasicHeader("Content-Type", "application/json"));
 			response = httpClient.execute(request);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return parseServerResponse(response);
+	}
+	
+	/**
+	 * Envoie une requete HTTP DELETE et retourne
+	 * la reponse du serveur
+	 * 
+	 * @param url l'utl
+	 * @return la reponse du serveur
+	 */
+	public static String httpDeleteRequest(String url) {
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpDelete del = new HttpDelete(url);
+		 
+		HttpResponse response = null;
+		
+		try {
+			response = httpClient.execute(del);			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
