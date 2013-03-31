@@ -8,14 +8,10 @@ import iaws.covoiturage.domain.nomenclature.MailingAddress;
 
 public class Teacher {
 	
-	private LastName lastName;
-	
-	private FirstName firstName;
-	
-	private Mail mail;
-	
-	private MailingAddress mailingAddress;
-	
+	private LastName lastName;	
+	private FirstName firstName;	
+	private Mail mail;	
+	private MailingAddress mailingAddress;	
 	private Coordinate coordinate;
 	
 	public Teacher(LastName lastName, FirstName firstName,

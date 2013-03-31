@@ -17,7 +17,7 @@ public class TestInscriptionServiceImpl extends TestCase {
 		Mail mail = new Mail("test", "univ-tlse3.fr");
 		
 		MailingAddress ma = new MailingAddress(
-				"Université Paul Sabatier",	"31000", "Toulouse");
+				"Universite Paul Sabatier",	"31000", "Toulouse");
 		
 		InscriptionService sv = new InscriptionServiceImpl();
 		String ret = sv.postTeacher(ln, fn, mail, ma);

@@ -103,8 +103,7 @@ public class HttpRequest {
 			while ((dataResponse = reader.readLine()) != null)
 				serverResponse += dataResponse;
 			
-			reader.close();
-			
+			reader.close();			
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

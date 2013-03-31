@@ -1,5 +1,10 @@
 package iaws.covoiturage.dao;
 
+/**
+ * Interface d'accès aux objets en base de type CouchDB
+ * 
+ * @param <T>
+ */
 public interface DAO<T> {
 	
 	/**

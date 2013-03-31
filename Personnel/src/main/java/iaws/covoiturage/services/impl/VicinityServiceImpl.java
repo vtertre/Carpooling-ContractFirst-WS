@@ -18,10 +18,12 @@ import iaws.covoiturage.exception.UnregisteredIDException;
 import iaws.covoiturage.rest.HttpRequest;
 import iaws.covoiturage.services.VicinityService;
 
+/**
+ * Implementation du service de recherche de voisins
+ */
 public class VicinityServiceImpl implements VicinityService {
 
-	/**
-	 * @throws UnregisteredIDException 
+	/** 
 	 * @see VicinityService#getNeighbors(String int)
 	 */
 	public ArrayList<Teacher> getNeighbors(String id, int radius) throws UnregisteredIDException {
@@ -33,6 +35,15 @@ public class VicinityServiceImpl implements VicinityService {
 		return getTeachersWithinRadius(userCoordinates, radius);
 	}
 	
+	/**
+	 * Recherche tous les utilisateurs enregistres
+	 * et construit la liste de voisins a proximite
+	 * 
+	 * @param coord les coordonnees de l'utilisateur effectuant la demande
+	 * @param radius la distance recherchee
+	 * 
+	 * @return la liste de voisins trouves
+	 */
 	private ArrayList<Teacher> getTeachersWithinRadius(Coordinate coord, int radius) {
 		
 		String url = DBUrl.getUrl() + "/_design"
@@ -44,23 +55,29 @@ public class VicinityServiceImpl implements VicinityService {
 			e.printStackTrace();
 		}
 		
-		//System.out.println(docs);
-		
 		return searchTeachers(docs, coord, radius);
 	}
 	
+	/**
+	 * Recherche les voisins en fonction de la reponse renvoyee
+	 * par le serveur.
+	 * 
+	 * @param jsonResponse la reponse du serveur
+	 * @param coord les coordonnees de l'utilisateur effectuant la demande
+	 * @param radius la distance recherchee
+	 * 
+	 * @return la liste de voisins trouves
+	 */
 	private ArrayList<Teacher> searchTeachers(String jsonResponse, Coordinate coord, int radius) {
 		ArrayList<Teacher> list = new ArrayList<Teacher>();
 		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonResponse);
 		JSONArray rows = json.getJSONArray("rows");
-		
-		//System.out.println(jsonResponse);
 
-		if (rows.size() <= 0) {
-			System.out.println("Aucun documents dans la base.");
+		// Pas de documents dans la base
+		if (rows.size() <= 0)
 			return list;
-		}
 		
+		// On regarde la distance pour chaque document
 		for (int i = 0; i < rows.size(); ++i) {
 			double lat = Double.valueOf(rows.getJSONObject(i).getJSONObject("value").
 					getJSONObject("Coordonnees").getString("Latitude"));
@@ -71,8 +88,8 @@ public class VicinityServiceImpl implements VicinityService {
 			double dist = calculateDistance(coord.getLatitude(), coord.getLongitude(),
 					lat, lon);
 			
-			if (dist <= radius && dist != 0D) {
-				
+			// Si la distance correspond a la demande on ajoute le voisin a la liste
+			if (dist <= radius && dist != 0D) {				
 				LastName ln = new LastName(rows.getJSONObject(i).getJSONObject("value").getString("Nom"));
 				FirstName fn = new FirstName(rows.getJSONObject(i).getJSONObject("value").getString("Prenom"));
 				
@@ -88,7 +105,19 @@ public class VicinityServiceImpl implements VicinityService {
 		return list;
 	}
 	
-	private static double calculateDistance(double lat1, double lon1,
+	/**
+	 * Calcule et retourne la distance en km entre deux
+	 * lieux geographiques localises par leur latitude et
+	 * longitude.
+	 * 
+	 * @param lat1 latitude du premier lieu
+	 * @param lon1 longitude du premier lieu
+	 * @param lat2 latitude du deuxieme lieu
+	 * @param lon2 longitude du deuxieme lieu
+	 * 
+	 * @return la distance calculee
+	 */
+	private double calculateDistance(double lat1, double lon1,
 			double lat2, double lon2) {
 		
 		double earthRadius = 6371D;
@@ -106,6 +135,14 @@ public class VicinityServiceImpl implements VicinityService {
 		return earthRadius * c;
 	}
 
+	/**
+	 * Recherche les coordonnees d'un utilisateur
+	 * enregistre en base de donnees.
+	 * 
+	 * @param id l'id a rechercher
+	 * 
+	 * @return les coordinnes trouvees
+	 */
 	private Coordinate getUserCoordinates(String id) {
 
 		// Encodage de l'adresse mail
@@ -125,12 +162,19 @@ public class VicinityServiceImpl implements VicinityService {
 		return getCoordinatesFromResponse(response);
 	}
 	
+	/**
+	 * Recherche les coordonnees d'un utilisateur
+	 * dans le reponse du serveur.
+	 * 
+	 * @param jsonResponse la reponse du serveur
+	 * 
+	 * @return les coordonnes si l'utilisateur existe, null sinon
+	 */
 	private Coordinate getCoordinatesFromResponse(String jsonResponse) {
 		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonResponse);
 		JSONArray rows = json.getJSONArray("rows");
-		
-		//System.out.println(jsonResponse);
 
+		// Aucun resultat trouve
 		if (rows.size() <= 0)
 			return null;
 
@@ -142,20 +186,5 @@ public class VicinityServiceImpl implements VicinityService {
 		
 		return new Coordinate(Double.valueOf(lat), Double.valueOf(lon));
 	}
-	
-	
-	//________________________________________________________________________
-
-	/*public static void main(String args[]) {
-		Session s = new Session("localhost", 5984);
-		Database db = s.getDatabase("iaws_ws_covoiturage");
-		Document doc = new Document();
-		doc.setId("_design/coordview");
-				                 
-		String str = "{\"coordinates\": {\"map\": \"function(doc) { if (doc._id)  emit(doc.Mail, doc.Coordonnees) } \"}}";
-				         
-		doc.put("views", str); 
-		db.saveDocument(doc);
-	}*/
 
 }

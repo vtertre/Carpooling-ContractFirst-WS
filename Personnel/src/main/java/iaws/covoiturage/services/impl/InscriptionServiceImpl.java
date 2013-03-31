@@ -6,6 +6,11 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+
+import org.jdom2.Document;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
@@ -21,7 +26,9 @@ import iaws.covoiturage.domain.nomenclature.MailingAddress;
 import iaws.covoiturage.rest.HttpRequest;
 import iaws.covoiturage.services.InscriptionService;
 
-
+/**
+ * Gere toutes les etapes d'inscription d'un enseignant
+ */
 public class InscriptionServiceImpl implements InscriptionService {
 
 	/**
@@ -60,7 +67,7 @@ public class InscriptionServiceImpl implements InscriptionService {
 	 * @return true si l'adresse est deja utilisee, false sinon
 	 */
 	private boolean checkMailUsed(String email) {
-		 
+		
 		// Encodage de l'adresse mail
 		String safeUrl = "\"" + email + "\"";
 		try {
@@ -75,11 +82,11 @@ public class InscriptionServiceImpl implements InscriptionService {
 		// Requete de type GET
 		String response = HttpRequest.httpGetRequest(safeUrl);
 		
-		// TODO Paser le JSon ... ?
-		if (response.contains(email))
-			return true;
+		// On regarde si l'adresse existe deja en base
+		JSONObject json = (JSONObject) JSONSerializer.toJSON(response);
+		JSONArray rows = json.getJSONArray("rows");
 		
-		return false;
+		return rows.size() > 0;
 	}
 	
 	/**
@@ -119,23 +126,26 @@ public class InscriptionServiceImpl implements InscriptionService {
 	 * 
 	 * @see HttpRequest#httpGetQuery(String)
 	 */
-	private Coordinate getCoordinatesFromXML(String xmlString) {
-		
+	private Coordinate getCoordinatesFromXML(String xmlString) {		
 		Coordinate coord = null;
 		
 		try {
 			SAXBuilder xmlBuilder = new SAXBuilder();
 			Reader in = new StringReader(xmlString);
-			org.jdom2.Document xmlDoc = xmlBuilder.build(in);
+			Document xmlDoc = xmlBuilder.build(in);
 			
-			// TODO verifier qu'on a bien une reponse pour lieu recherche
+			// On verifie qu'il y a un lieu retourne
 			if (xmlDoc.getRootElement().getChildren().isEmpty())
 				return null;
 			
+			// On recupere les coordonnees
 			coord = new Coordinate(
-					Double.valueOf(xmlDoc.getRootElement().getChild("place").getAttribute("lat").getValue()),
-					Double.valueOf(xmlDoc.getRootElement().getChild("place").getAttribute("lon").getValue()));
+					Double.valueOf(xmlDoc.getRootElement().
+							getChild("place").getAttribute("lat").getValue()),
+					Double.valueOf(xmlDoc.getRootElement().
+							getChild("place").getAttribute("lon").getValue()));
 			
+			in.close();
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

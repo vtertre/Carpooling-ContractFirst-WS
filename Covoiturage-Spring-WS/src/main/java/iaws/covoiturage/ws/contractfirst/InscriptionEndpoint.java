@@ -14,6 +14,9 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+/**
+ * Endpoint pour un demande d'inscription d'enseignant
+ */
 @Endpoint
 public class InscriptionEndpoint {
 	

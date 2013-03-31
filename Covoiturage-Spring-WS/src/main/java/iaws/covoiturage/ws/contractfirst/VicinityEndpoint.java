@@ -13,6 +13,9 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import org.springframework.ws.server.endpoint.annotation.XPathParam;
 
+/**
+ * Endpoint pour une demande de liste de voisins
+ */
 @Endpoint
 public class VicinityEndpoint {
 	

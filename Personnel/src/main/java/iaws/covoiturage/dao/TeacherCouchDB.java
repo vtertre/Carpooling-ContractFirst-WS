@@ -9,14 +9,22 @@ import org.apache.http.entity.StringEntity;
 import iaws.covoiturage.domain.Teacher;
 import iaws.covoiturage.rest.HttpRequest;
 
+/**
+ * Gestion des acces en base de donnees
+ * pour un enseignant
+ */
 public class TeacherCouchDB extends DAOCouchDB<Teacher> {
 
 	public TeacherCouchDB(String dbUrl) {
 		super(dbUrl);
 	}
 
+	/**
+	 * @see DAO#insert(Object)
+	 */
 	public void insert(Teacher item) {
-
+		
+		// On cree l'objet JSON a ajouter
 		JSONObject doc = new JSONObject();
 		StringEntity entity = null;
 
@@ -36,6 +44,7 @@ public class TeacherCouchDB extends DAOCouchDB<Teacher> {
 			e.printStackTrace();
 		}
 
+		// Requete HTTP POST
 		HttpRequest.httpPostRequest(dbUrl, entity);
 	}
 
