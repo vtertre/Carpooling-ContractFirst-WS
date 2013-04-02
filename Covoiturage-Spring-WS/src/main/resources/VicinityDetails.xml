@@ -1,6 +1,6 @@
-<VicinityDetails xmlns="http://iaws/ws/contractfirst/covoiturage"
+<VicinityDetails xmlns="http://iaws/ws/contractfirst/carpooling"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://iaws/ws/contractfirst/covoiturage VicinityRequest.xsd">
+	xsi:schemaLocation="http://iaws/ws/contractfirst/carpooling VicinityRequest.xsd">
 	
 	<Personnel>
 		<Identite>

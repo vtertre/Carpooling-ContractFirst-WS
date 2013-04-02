@@ -6,16 +6,6 @@
 
 	<sws:annotation-driven />
 
-	<sws:dynamic-wsdl id="inscription" portTypeName="Inscription"
-		locationUri="/inscriptionService/" targetNamespace="http://iaws/ws/contractfirst/carpooling">
-		<sws:xsd location="/WEB-INF/xsd/InscriptionRequest.xsd" />
-	</sws:dynamic-wsdl>
-	
-	<sws:dynamic-wsdl id="vicinity" portTypeName="Vicinity"
-		locationUri="/vicinityService/" targetNamespace="http://iaws/ws/contractfirst/carpooling">
-		<sws:xsd location="/WEB-INF/xsd/VicinityRequest.xsd" />
-	</sws:dynamic-wsdl>
-
 	<!-- Inscription beans -->
 
 	<bean id="inscriptionEndPoint" class="iaws.carpooling.ws.contractfirst.InscriptionEndpoint">
@@ -32,5 +22,4 @@
 	</bean>
 
 	<bean id="vicinityService" class="iaws.carpooling.services.impl.VicinityServiceImpl" />
-
 </beans>

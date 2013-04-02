@@ -1,6 +1,6 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:cov="http://iaws/ws/contractfirst/covoiturage" elementFormDefault="qualified"
-	targetNamespace="http://iaws/ws/contractfirst/covoiturage">
+	xmlns:cov="http://iaws/ws/contractfirst/carpooling" elementFormDefault="qualified"
+	targetNamespace="http://iaws/ws/contractfirst/carpooling">
 	
 	<xs:element name="InscriptionRequest">
 		<xs:complexType>
