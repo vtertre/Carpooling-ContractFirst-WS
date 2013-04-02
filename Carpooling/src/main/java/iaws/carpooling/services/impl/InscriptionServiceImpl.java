@@ -34,30 +34,34 @@ public class InscriptionServiceImpl implements InscriptionService {
 	/**
 	 * @see InscriptionService#postTeacher(LastName, FirstName, Mail, MailingAddress)
 	 */
-	public String postTeacher(LastName lastName, FirstName firstName,
-			Mail mail, MailingAddress mailingAddress) throws Exception {
-		
+	public String[] postTeacher(LastName lastName, FirstName firstName,
+			Mail mail, MailingAddress mailingAddress) {
+			
 		Coordinate addressCoord;
 		
 		// Verification du domaine
 		if (!mail.getDomain().equals("univ-tlse3.fr"))
-			return "ERREUR_110";
+			return new String[] {"KO", "ERREUR 110",
+					"Adresse email invalide"};
 		
 		// Verification de l'unicite
 		if (checkMailUsed(mail.toString()))
-			return "ERREUR_100";
+			return new String[] {"KO", "ERREUR 100",
+				"Adresse email deja utilisee"};
 		
 		// Compatibilite OSM
 		if ((addressCoord = getAddressCoordinates(mailingAddress.toString())) == null)
-			return "ERREUR_200";
+			return new String[] {"KO", "ERREUR 200",
+				"Adresse postale non connue de Open Street Map"};
 		
-		Teacher teacher = new Teacher(lastName, firstName, mail, mailingAddress, addressCoord);
+		Teacher teacher = new Teacher(lastName, firstName, mail,
+				mailingAddress, addressCoord);
 		
 		// Enregistrement DB
 		DAOCouchDB<Teacher> teacherDAO = new TeacherCouchDB(DBUrl.getUrl());		
 		teacherDAO.insert(teacher);
 		
-		return "OK";
+		return new String[] {"OK", "", ""};
 	}
 	
 	/**

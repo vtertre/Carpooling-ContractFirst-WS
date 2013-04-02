@@ -20,9 +20,12 @@ public class TestInscriptionServiceImpl extends TestCase {
 				"Universite Paul Sabatier",	"31000", "Toulouse");
 		
 		InscriptionService sv = new InscriptionServiceImpl();
-		String ret = sv.postTeacher(ln, fn, mail, ma);
+		String[] ret = sv.postTeacher(ln, fn, mail, ma);
 		
-		assert ret.equals("OK") || ret.equals("ERREUR_100");
+		assert ret.length == 3;
+		assert ret[0].equals("OK") || ret[0].equals("KO");
+		assert ret[1].equals("") || ret[1].equals("ERREUR 100");
+		assert ret[2].equals("") || ret[2].equals("Adresse email deja utilisee");
 	}
 
 }

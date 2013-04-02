@@ -27,8 +27,8 @@ public class TestXmlBuilder extends TestCase {
 	}
 	
 	public void testGetElementFromInscriptionCode() {
-		String code = "OK";
-		Element elem = XmlBuilder.getElementFromInscriptionCode(code);
+		String[] op = {"OK", "", ""};
+		Element elem = XmlBuilder.getElementFromInscriptionCode(op);
 		
 		assert elem != null;
 	}

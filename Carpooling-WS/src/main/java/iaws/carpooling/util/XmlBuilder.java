@@ -56,12 +56,17 @@ public class XmlBuilder {
 	 * Construit un Element XML a partir d'un code
 	 * de retour d'une inscription
 	 * 
-	 * @param code le code de l'operation
+	 * @param out le resultat de l'operation
 	 * @return un Element XML
 	 */
-	public static Element getElementFromInscriptionCode(String code) {		
-		return new Element("InscriptionDetails", ns).
-				addContent(new Element("Code", ns).setText(code));
+	public static Element getElementFromInscriptionCode(String[] out) {		
+		Element root = new Element("InscriptionDetails", ns);
+		
+		root.addContent(new Element("Operation", ns).setText(out[0]));
+		root.addContent(new Element("Code", ns).setText(out[1]));
+		root.addContent(new Element("Message", ns).setText(out[2]));
+		
+		return root;
 	}
 
 }

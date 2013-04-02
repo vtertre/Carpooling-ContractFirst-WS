@@ -21,7 +21,7 @@ public interface InscriptionService {
 	 * "ERREUR_110" si l'adresse mail est invalide
 	 * "ERREUR_200" si l'adresse postale n'est pas connue d'OSM
 	 */
-	public String postTeacher(LastName lastName, FirstName firstName,
+	public String[] postTeacher(LastName lastName, FirstName firstName,
 			Mail mail, MailingAddress mailingAddress) throws Exception;
 	
 }

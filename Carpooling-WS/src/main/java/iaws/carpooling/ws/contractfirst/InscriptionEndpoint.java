@@ -46,9 +46,9 @@ public class InscriptionEndpoint {
 				root.getChild("AdressePostale", ns).getChildText("Code", ns),
 				root.getChild("AdressePostale", ns).getChildText("Ville", ns));
 		
-		String codeOp = inscriptionService.postTeacher(lastName, firstName, mail, mailingAddress);
+		String[] opRes = inscriptionService.postTeacher(lastName, firstName, mail, mailingAddress);
 		
-		return XmlBuilder.getElementFromInscriptionCode(codeOp);
+		return XmlBuilder.getElementFromInscriptionCode(opRes);
 	}
 
 }

@@ -1,4 +1,6 @@
 <InscriptionDetails xmlns="http://iaws/ws/contractfirst/carpooling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://iaws/ws/contractfirst/carpooling InscriptionRequest.xsd">
-	<Code>OK</Code>
+	<Operation>OK</Operation>
+	<Code></Code>
+	<Message></Message>
 </InscriptionDetails>

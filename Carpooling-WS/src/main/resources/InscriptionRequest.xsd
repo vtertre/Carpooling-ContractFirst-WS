@@ -37,7 +37,9 @@
 	<xs:element name="InscriptionDetails">
 		<xs:complexType>
 			<xs:all>
+				<xs:element name="Operation" type="xs:string" />
 				<xs:element name="Code" type="xs:string" />
+				<xs:element name="Message" type="xs:string" />
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
