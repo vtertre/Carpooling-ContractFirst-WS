@@ -30,19 +30,19 @@ public class XmlBuilder {
 		Element root = new Element("VicinityDetails", ns);
 
 		for (Teacher t : list) {
-			Element id = new Element("Identite", ns);
-			id.addContent(new Element("Nom", ns).setText(t.getLastName()
+			Element id = new Element("Id", ns);
+			id.addContent(new Element("Lastname", ns).setText(t.getLastName()
 					.getName()));
-			id.addContent(new Element("Prenom", ns).setText(t.getFirstName()
+			id.addContent(new Element("Firstname", ns).setText(t.getFirstName()
 					.getName()));
 
 			Element mail = new Element("Mail", ns);
 			mail.addContent(new Element("Perso", ns).setText(t.getMail()
 					.getName()));
-			mail.addContent(new Element("Domaine", ns).setText(t.getMail()
+			mail.addContent(new Element("Domain", ns).setText(t.getMail()
 					.getDomain()));
 
-			Element teacher = new Element("Personnel", ns);
+			Element teacher = new Element("Teacher", ns);
 			teacher.addContent(id);
 			teacher.addContent(mail);
 

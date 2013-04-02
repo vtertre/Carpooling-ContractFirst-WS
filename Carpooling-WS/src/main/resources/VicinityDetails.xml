@@ -2,26 +2,26 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://iaws/ws/contractfirst/carpooling VicinityRequest.xsd">
 	
-	<Personnel>
-		<Identite>
-			<Nom>Lastname</Nom>
-			<Prenom>Firstname</Prenom>
-		</Identite>
+	<Teacher>
+		<Id>
+			<Lastname>Lastname</Lastname>
+			<Firstname>Firstname</Firstname>
+		</Id>
 		<Mail>
 			<Perso>firstname.lastname</Perso>
-			<Domaine>univ-tlse3.fr</Domaine>
+			<Domain>univ-tlse3.fr</Domain>
 		</Mail>
-	</Personnel>
+	</Teacher>
 	
-	<Personnel>
-		<Identite>
-			<Nom>Nom</Nom>
-			<Prenom>Prénom</Prenom>
-		</Identite>
+	<Teacher>
+		<Id>
+			<Lastname>Nom</Lastname>
+			<Firstname>Prénom</Firstname>
+		</Id>
 		<Mail>
 			<Perso>prenom.nom</Perso>
-			<Domaine>univ-tlse3.fr</Domaine>
+			<Domain>univ-tlse3.fr</Domain>
 		</Mail>
-	</Personnel>
+	</Teacher>
 	
 </VicinityDetails>

@@ -34,17 +34,17 @@ public class InscriptionEndpoint {
 		
 		Namespace ns = Namespace.getNamespace(NAMESPACE_URI);
 		
-		LastName lastName = new LastName(root.getChild("Identite", ns).getChildText("Nom", ns));
+		LastName lastName = new LastName(root.getChild("Id", ns).getChildText("Lastname", ns));
 		
-		FirstName firstName = new FirstName(root.getChild("Identite", ns).getChildText("Prenom", ns));
+		FirstName firstName = new FirstName(root.getChild("Id", ns).getChildText("Firstname", ns));
 		
 		Mail mail = new Mail(root.getChild("Mail", ns).getChildText("Perso", ns),
-				root.getChild("Mail", ns).getChildText("Domaine", ns));
+				root.getChild("Mail", ns).getChildText("Domain", ns));
 		
 		MailingAddress mailingAddress = new MailingAddress(
-				root.getChild("AdressePostale", ns).getChildText("Rue", ns),
-				root.getChild("AdressePostale", ns).getChildText("Code", ns),
-				root.getChild("AdressePostale", ns).getChildText("Ville", ns));
+				root.getChild("MailingAddress", ns).getChildText("Street", ns),
+				root.getChild("MailingAddress", ns).getChildText("Code", ns),
+				root.getChild("MailingAddress", ns).getChildText("City", ns));
 		
 		String[] opRes = inscriptionService.postTeacher(lastName, firstName, mail, mailingAddress);
 		

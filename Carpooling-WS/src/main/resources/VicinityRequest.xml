@@ -1,6 +1,6 @@
 <VicinityRequest xmlns="http://iaws/ws/contractfirst/carpooling"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://iaws/ws/contractfirst/carpooling VicinityRequest.xsd">
-	<Identifiant>toto</Identifiant>
-	<Rayon>5</Rayon>
+	<Id>toto</Id>
+	<Radius>5</Radius>
 </VicinityRequest>

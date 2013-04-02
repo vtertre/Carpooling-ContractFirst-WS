@@ -30,8 +30,8 @@ public class VicinityEndpoint {
 	@PayloadRoot(localPart = "VicinityRequest", namespace = NAMESPACE_URI)
 	@Namespace(prefix = "cov", uri = NAMESPACE_URI)
 	@ResponsePayload
-	public Element handleInscriptionRequest(@XPathParam("/cov:VicinityRequest/cov:Identifiant") String id,
-			@XPathParam("/cov:VicinityRequest/cov:Rayon") int radius) throws Exception {
+	public Element handleInscriptionRequest(@XPathParam("/cov:VicinityRequest/cov:Id") String id,
+			@XPathParam("/cov:VicinityRequest/cov:Radius") int radius) throws Exception {
 		
 		ArrayList<Teacher> neighbors = vicinityService.getNeighbors(id, radius);
 		

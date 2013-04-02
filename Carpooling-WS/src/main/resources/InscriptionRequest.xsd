@@ -5,32 +5,32 @@
 	<xs:element name="InscriptionRequest">
 		<xs:complexType>
 			<xs:all>
-				<xs:element name="Identite" type="cov:IdentiteType" />
+				<xs:element name="Id" type="cov:IdType" />
 				<xs:element name="Mail" type="cov:MailType" />
-				<xs:element name="AdressePostale" type="cov:AdressePostaleType" />
+				<xs:element name="MailingAddress" type="cov:MailingAddressType" />
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
 	
-	<xs:complexType name="IdentiteType">
+	<xs:complexType name="IdType">
 		<xs:sequence>
-			<xs:element name="Nom" type="xs:string" />
-			<xs:element name="Prenom" type="xs:string" />
+			<xs:element name="Lastname" type="xs:string" />
+			<xs:element name="Firstname" type="xs:string" />
 		</xs:sequence>
 	</xs:complexType>
 	
 	<xs:complexType name="MailType">
 		<xs:sequence>
 			<xs:element name="Perso" type="xs:string" />
-			<xs:element name="Domaine" type="xs:string" />
+			<xs:element name="Domain" type="xs:string" />
 		</xs:sequence>
 	</xs:complexType>
 	
-	<xs:complexType name="AdressePostaleType">
+	<xs:complexType name="MailingAddressType">
 		<xs:sequence>
-			<xs:element name="Rue" type="xs:string" />
+			<xs:element name="Street" type="xs:string" />
 			<xs:element name="Code" type="xs:string" />
-			<xs:element name="Ville" type="xs:string" />
+			<xs:element name="City" type="xs:string" />
 		</xs:sequence>
 	</xs:complexType>
 	

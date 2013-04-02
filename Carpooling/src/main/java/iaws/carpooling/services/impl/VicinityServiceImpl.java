@@ -48,7 +48,7 @@ public class VicinityServiceImpl implements VicinityService {
 		
 		String url = DBUrl.getUrl() + "/_design"
 				+ "/allview/_view/allDocs";
-		String docs = "";
+		String docs = null;
 		try {
 			docs = new String(HttpRequest.httpGetRequest(url).getBytes("ISO8859-1"), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -80,18 +80,18 @@ public class VicinityServiceImpl implements VicinityService {
 		// On regarde la distance pour chaque document
 		for (int i = 0; i < rows.size(); ++i) {
 			double lat = Double.valueOf(rows.getJSONObject(i).getJSONObject("value").
-					getJSONObject("Coordonnees").getString("Latitude"));
+					getJSONObject("Coordinates").getString("Latitude"));
 
 			double lon = Double.valueOf(rows.getJSONObject(i).getJSONObject("value").
-					getJSONObject("Coordonnees").getString("Longitude"));
+					getJSONObject("Coordinates").getString("Longitude"));
 			
 			double dist = calculateDistance(coord.getLatitude(), coord.getLongitude(),
 					lat, lon);
 			
 			// Si la distance correspond a la demande on ajoute le voisin a la liste
 			if (dist <= radius && dist != 0D) {				
-				LastName ln = new LastName(rows.getJSONObject(i).getJSONObject("value").getString("Nom"));
-				FirstName fn = new FirstName(rows.getJSONObject(i).getJSONObject("value").getString("Prenom"));
+				LastName ln = new LastName(rows.getJSONObject(i).getJSONObject("value").getString("Lastname"));
+				FirstName fn = new FirstName(rows.getJSONObject(i).getJSONObject("value").getString("Firstname"));
 				
 				String perso = rows.getJSONObject(i).getJSONObject("value").getString("Mail");				
 				int ind = perso.indexOf("@");

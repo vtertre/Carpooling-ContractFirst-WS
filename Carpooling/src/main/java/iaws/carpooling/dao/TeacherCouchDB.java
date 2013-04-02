@@ -30,14 +30,14 @@ public class TeacherCouchDB extends DAOCouchDB<Teacher> {
 
 		try {
 			doc.put("_id", item.getMail().getName());
-			doc.put("Nom", item.getLastName().getName());
-			doc.put("Prenom", item.getFirstName().getName());
+			doc.put("Lastname", item.getLastName().getName());
+			doc.put("Firstname", item.getFirstName().getName());
 			doc.put("Mail", item.getMail().toString());
-			doc.put("AdressePostale", item.getMailingAddress().toString());
+			doc.put("MailingAddress", item.getMailingAddress().toString());
 			JSONObject coord = new JSONObject();
 			coord.put("Latitude", item.getCoordinates().getLatitude());
 			coord.put("Longitude", item.getCoordinates().getLongitude());
-			doc.put("Coordonnees", coord);
+			doc.put("Coordinates", coord);
 
 			entity = new StringEntity(doc.toString(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {

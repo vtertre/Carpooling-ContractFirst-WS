@@ -13,7 +13,7 @@
    "_id": "_design/coordview",
    "views": {
        "coordinates": {
-           "map": "function(doc) { if (doc._id)  emit(doc._id, doc.Coordonnees) } "
+           "map": "function(doc) { if (doc._id)  emit(doc._id, doc.Coordinates) } "
        }
    }
 }

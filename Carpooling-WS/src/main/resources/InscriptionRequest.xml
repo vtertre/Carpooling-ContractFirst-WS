@@ -1,16 +1,16 @@
 <InscriptionRequest xmlns="http://iaws/ws/contractfirst/carpooling" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://iaws/ws/contractfirst/carpooling InscriptionRequest.xsd">
-	<Identite>
-		<Nom>Totoé</Nom>
-		<Prenom>TotoAussi</Prenom>
-	</Identite>
+	<Id>
+		<Lastname>Totoé</Lastname>
+		<Firstname>TotoAussi</Firstname>
+	</Id>
 	<Mail>
 		<Perso>toto</Perso>
-		<Domaine>univ-tlse3.fr</Domaine>
+		<Domain>univ-tlse3.fr</Domain>
 	</Mail>
-	<AdressePostale>
-		<Rue>Université Paul Sabatier</Rue>
+	<MailingAddress>
+		<Street>Université Paul Sabatier</Street>
 		<Code>31000</Code>
-		<Ville>Toulouse</Ville>
-	</AdressePostale>
+		<City>Toulouse</City>
+	</MailingAddress>
 </InscriptionRequest>
