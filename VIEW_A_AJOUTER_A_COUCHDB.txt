@@ -1,39 +1,30 @@
 {
-  " emailAddress ": {
-    "map": "function(doc) { if (doc.Mail)  emit(doc.Mail, null) }"
-    }
- }
- 
-Code Java:
- 
-Document doc = new Document();
-doc.setId("_design/mailview");
-                 
-String str = "{\"emailAddress\": {\"map\": \"function(doc) { if (doc.Mail)  emit(doc.Mail, null) } \"}}";
-         
-doc.put("views", str); 
-db.saveDocument(doc);
+   "_id": "_design/allview",
+   "views": {
+       "allDocs": {
+           "map": "function(doc) { if (doc)  emit(null, doc) } "
+       }
+   }
+}
 
-//_________________________________________________________________________
+//_____________________________________________________________________
 
-Session s = new Session("localhost", 5984);
-Database db = s.getDatabase("iaws_ws_covoiturage");
-Document doc = new Document();
-doc.setId("_design/coordview");
-		                 
-String str = "{\"coordinates\": {\"map\": \"function(doc) { if (doc._id)  emit(doc.Mail, doc.Coordonnees) } \"}}";
-		         
-doc.put("views", str); 
-db.saveDocument(doc);
+{
+   "_id": "_design/coordview",
+   "views": {
+       "coordinates": {
+           "map": "function(doc) { if (doc._id)  emit(doc._id, doc.Coordonnees) } "
+       }
+   }
+}
 
-//_________________________________________________________________________
+//______________________________________________________________________
 
-Session s = new Session("localhost", 5984);
-Database db = s.getDatabase("iaws_ws_covoiturage");
-Document doc = new Document();
-doc.setId("_design/allview");
-		                 
-String str = "{\"allDocs\": {\"map\": \"function(doc) { if (doc)  emit(null, doc) } \"}}";
-		         
-doc.put("views", str); 
-db.saveDocument(doc);
+{
+   "_id": "_design/mailview",
+   "views": {
+       "emailAddress": {
+           "map": "function(doc) { if (doc.Mail)  emit(doc.Mail, null) } "
+       }
+   }
+}

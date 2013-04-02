@@ -1,9 +1,0 @@
-iaws.covoiturage.dao
-iaws.covoiturage.domain
-iaws.covoiturage.domain.nomenclature
-iaws.covoiturage.exception
-iaws.covoiturage.rest
-iaws.covoiturage.services
-iaws.covoiturage.services.impl
-iaws.covoiturage.util
-iaws.covoiturage.ws.contractfirst
