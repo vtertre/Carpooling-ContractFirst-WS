@@ -5,12 +5,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>IAWS.projet</groupId>
-	<artifactId>Covoiturage</artifactId>
+	<artifactId>Carpooling-ContractFirst-WS</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<modules>
-		<module>Personnel</module>
-		<module>Covoiturage-Spring-WS</module>
+		<module>Carpooling</module>
+		<module>Carpooling-WS</module>
 	</modules>
 
 	<dependencyManagement>
@@ -33,7 +33,7 @@
 			</dependency>
 			<dependency>
 				<groupId>IAWS.projet</groupId>
-				<artifactId>Personnel</artifactId>
+				<artifactId>Carpooling</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
