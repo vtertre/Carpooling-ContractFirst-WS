@@ -30,7 +30,7 @@ public class InscriptionEndpoint {
 	
 	@PayloadRoot(localPart = "InscriptionRequest", namespace = NAMESPACE_URI)
 	@ResponsePayload
-	public Element handleInscriptionRequest(@RequestPayload Element root) throws Exception {
+	public Element handleInscriptionRequest(@RequestPayload Element root) {
 		
 		Namespace ns = Namespace.getNamespace(NAMESPACE_URI);
 		
